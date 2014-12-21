@@ -82,7 +82,11 @@ greater than or less than symbols. For example,
 One way synonyms have to be global, because there's no point in a local one way synonym.
 
 Each row of synonyms.txt should be in alphabetical order, and the lines should be in alphabetical order by the first word.
-That way it's easier to avoid duplicates
+That way it's easier to avoid duplicates.  One way synonyms should be on a line by themselves, but two way synonyms can be chained
+together.  A line should have exactly one of these in it:
+- a single >
+- a single <
+- any number of =
 
 ###Base form
 
