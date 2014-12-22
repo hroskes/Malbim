@@ -59,20 +59,33 @@ def compileall(directory = ".."):
         if fi in globalvariables.specialfiles:
             continue
         elif fi.endswith(".txt"):
-            print fi
             data += MalbimIndexFile(os.path.join(directory, fi), 2).getdata()
         elif os.path.isdir(os.path.join(directory, fi)):
             data += compileall(os.path.join(directory, fi))
     return data
 
+def createdict(data):
+    datadict = {}
+    for unit in data:
+        for compared in unit[1:]:
+            for synonym in compared:
+                if synonym not in datadict:
+                    datadict[synonym] = []
+                datadict[synonym] += [unit]
+    return datadict
 
 def test():
-    """Test this on rishon of Vayeishev"""
+    """Test this"""
     print "Test:"
-    for c in compileall():
+    """
+    for c in createdict(compileall())[u"גיד~נשה"]:
         print c[0] + ":"
         print "\n".join(" ".join(a for a in b) for b in c[1:])
-        print
+        print"""
+    keys = createdict(compileall()).keys()
+    keys.sort(key = lambda k: removenekudot(k))
+    for k in keys:
+        print k
 
 if __name__ == '__main__':
     test()

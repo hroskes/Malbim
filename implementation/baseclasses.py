@@ -18,7 +18,8 @@ class MalbimDataFile(object):
         self.data = []
         self.ninitialwords = ninitialwords
         with codecs.open(datafile, encoding='utf-8') as dataf:
-            self.lines = [line.replace("\n", "").replace("\r","") for line in dataf.readlines()]
+            self.lines = [line.replace("\n", "").replace("\r","") for line in dataf.readlines()\
+                                                                  if not line.startswith("#")]
 
     def parse(self, lines):
         """Different for different kinds of files"""
