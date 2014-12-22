@@ -3,6 +3,7 @@
 """Main classes for reading from files"""
 
 import globalvariables
+import os
 from helperfunctions import removenekudot
 from baseclasses import ReadFileError, MalbimDataFile
 
@@ -19,15 +20,31 @@ class MalbimIndexFile(MalbimDataFile):
             unitlist = []
             referencelocation = " ".join(line.split(" ")[:self.ninitialwords])
             for unit in line.split(" ")[self.ninitialwords:]:
-                comparedlist = [referencelocation]
+
+                if unit.startswith("(") and unit.endswith(")"):
+                    comparedlist = ["(" + referencelocation + ")"]
+                    unit = unit[1:-1]
+                elif unit.startswith("[") and unit.endswith("]"):
+                    comparedlist = ["[" + referencelocation + "]"]
+                    unit = unit[1:-1]
+                else:
+                    comparedlist = [referencelocation]
+
                 for compared in unit.split("-"):
                     synonymlist = []
                     for synonym in compared.split("="):
                         synonymlist += [synonym]
+                        wordlist = synonym.split("~")
                         for globalsynonymlist in globalvariables.SYNONYMS.getdata()[0]:
                             if removenekudot(synonym) in removenekudot(globalsynonymlist):
                                 synonymlist += globalsynonymlist
                                 synonymlist.remove(synonym)
+                            if len(wordlist) > 1:
+                                for word in wordlist:
+                                    if removenekudot(word) in removenekudot(globalsynonymlist):
+                                        synonymlist += [synonym.replace(word,globalsynonym) \
+                                                            for globalsynonym in globalsynonymlist]
+                                        synonymlist.remove(synonym)
                         for onewaysynonymlist in globalvariables.SYNONYMS.getdata()[1]:
                             if removenekudot(synonym) == removenekudot(onewaysynonymlist[1]):
                                 synonymlist += onewaysynonymlist[:1]
@@ -35,11 +52,24 @@ class MalbimIndexFile(MalbimDataFile):
                 unitlist += [comparedlist]
             self.data += unitlist
 
+def compileall(directory = ".."):
+    data = []
+    files = os.listdir(directory)
+    for fi in files:
+        if fi in globalvariables.specialfiles:
+            continue
+        elif fi.endswith(".txt"):
+            print fi
+            data += MalbimIndexFile(os.path.join(directory, fi), 2).getdata()
+        elif os.path.isdir(os.path.join(directory, fi)):
+            data += compileall(os.path.join(directory, fi))
+    return data
+
+
 def test():
     """Test this on rishon of Vayeishev"""
     print "Test:"
-    myfile = MalbimIndexFile("../Vayeishev/rishon.txt", 2)
-    for c in myfile.getdata():
+    for c in compileall():
         print c[0] + ":"
         print "\n".join(" ".join(a for a in b) for b in c[1:])
         print
