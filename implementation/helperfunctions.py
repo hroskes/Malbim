@@ -25,3 +25,13 @@ def removenekudot(listorstring):
 def removebadcharacters(listorstring):
     badcharacters = u"\ufeff"
     return removecharacters(listorstring, badcharacters)
+
+def removeduplicates(inlist):
+    for a in inlist:
+        listcopy = inlist[:]
+        listcopy.reverse()
+        listcopy.remove(a)
+        listcopy.reverse()
+        if a in listcopy:
+            return removeduplicates(listcopy)
+    return inlist

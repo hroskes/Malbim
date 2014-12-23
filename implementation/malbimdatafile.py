@@ -4,7 +4,7 @@
 
 import globalvariables
 import os
-from helperfunctions import removenekudot, removebadcharacters
+from helperfunctions import removenekudot, removebadcharacters, removeduplicates
 from baseclasses import ReadFileError, MalbimDataFile
 
 class MalbimIndexFile(MalbimDataFile):
@@ -30,24 +30,30 @@ class MalbimIndexFile(MalbimDataFile):
                 else:
                     comparedlist = [referencelocation]
 
+                synonymdata = zip(globalvariables.SYNONYMS.getdata()[0],
+                                  removenekudot(globalvariables.SYNONYMS.getdata()[0]))
+                onewaydata = zip(globalvariables.SYNONYMS.getdata()[1],
+                                  removenekudot(globalvariables.SYNONYMS.getdata()[1]))
+
                 for compared in unit.split("-"):
-                    synonymlist = []
-                    for synonym in compared.split("="):
-                        synonymlist += [synonym]
-                        wordlist = synonym.split("~")
-                        for globalsynonymlist in globalvariables.SYNONYMS.getdata()[0]:
-                            if removenekudot(synonym) in removenekudot(globalsynonymlist):
-                                synonymlist += globalsynonymlist
-                                synonymlist.remove(synonym)
-                            if len(wordlist) > 1:
-                                for word in wordlist:
-                                    if removenekudot(word) in removenekudot(globalsynonymlist):
-                                        synonymlist += [synonym.replace(word,globalsynonym) \
-                                                            for globalsynonym in globalsynonymlist]
-                                        synonymlist.remove(synonym)
-                        for onewaysynonymlist in globalvariables.SYNONYMS.getdata()[1]:
-                            if removenekudot(synonym) == removenekudot(onewaysynonymlist[1]):
-                                synonymlist += onewaysynonymlist[:1]
+                    synonymlist = compared.split("=")
+                    oldlength = -1
+                    while len(synonymlist) > oldlength:
+                        oldlength = len(synonymlist)
+                        for synonym in synonymlist:
+                            wordlist = synonym.split("~")
+                            for globalsynonymlist, nonekudot in synonymdata:
+                                if removenekudot(synonym) in nonekudot:
+                                    synonymlist += globalsynonymlist
+                                if len(wordlist) > 1:
+                                    for word in wordlist:
+                                        if removenekudot(word) in nonekudot:
+                                            synonymlist += [synonym.replace(word,globalsynonym) \
+                                                                for globalsynonym in globalsynonymlist]
+                            for onewaysynonymlist, nonekudot in onewaydata:
+                                if removenekudot(synonym) == nonekudot[1]:
+                                    synonymlist += onewaysynonymlist[:1]
+                            synonymlist = removeduplicates(synonymlist)
                     comparedlist += [synonymlist]
                 unitlist += [comparedlist]
             self.data += unitlist
