@@ -5,30 +5,38 @@
 import globalvariables
 import os
 from helperfunctions import removenekudot, removebadcharacters, removeduplicates
-from baseclasses import ReadFileError, MalbimDataFile
+from baseclasses import MalbimDataFile
 
 class MalbimIndexFile(MalbimDataFile):
     """Most files should be in this category.  The standard files described
        in README.txt"""
-    def __init__(self, datafile, ninitialwords):
-        super(MalbimIndexFile, self).__init__(datafile, ninitialwords)
+    def __init__(self, datafile, infofile):
+        super(MalbimIndexFile, self).__init__(datafile)
+        self.ninitialwords = infofile.ninitialwords
+        self.reference = infofile.reference
         self.parse(self.lines)
 
     def parse(self, lines):
         """Assemble it all into a big list"""
         for line in lines:
             unitlist = []
-            referencelocation = " ".join(line.split(" ")[:self.ninitialwords])
+            repmap = {}
+            for referenceword, i in zip(line.split(" ")[:self.ninitialwords], range(self.ninitialwords)):
+                repmap["s" + str(i+1)] = referenceword
+            try:
+                self.reference = self.reference % repmap
+            except KeyError:
+                self.raiseerror("This line does not have enough words:\n" + line)
             for unit in line.split(" ")[self.ninitialwords:]:
 
                 if unit.startswith("(") and unit.endswith(")"):
-                    comparedlist = ["(" + referencelocation + ")"]
+                    comparedlist = ["(" + self.reference + ")"]
                     unit = unit[1:-1]
                 elif unit.startswith("[") and unit.endswith("]"):
-                    comparedlist = ["[" + referencelocation + "]"]
+                    comparedlist = ["[" + self.reference + "]"]
                     unit = unit[1:-1]
                 else:
-                    comparedlist = [referencelocation]
+                    comparedlist = [self.reference]
 
                 synonymdata = zip(globalvariables.SYNONYMS.getdata()[0],
                                   removenekudot(globalvariables.SYNONYMS.getdata()[0]))
@@ -58,16 +66,38 @@ class MalbimIndexFile(MalbimDataFile):
                 unitlist += [comparedlist]
             self.data += unitlist
 
-def compileall(directory = ".."):
+class InfoFile(MalbimDataFile):
+    def __init__(self, datafile):
+        super(InfoFile, self).__init__(datafile)
+        self.parse(self.lines)
+
+    def parse(self, lines):
+        if len(lines) != 2:
+            self.raiseerror("info.txt files need to have exactly 2 nonempty lines")
+        try:
+            self.ninitialwords = int(self.lines[0])
+        except ValueError:
+            self.raiseerror("The first line of info.txt needs to be an integer")
+
+        for i in range(self.ninitialwords):
+            self.lines[1] = self.lines[1].replace('\\' + str(i+1), "%(s" + str(i+1) + ")s")
+
+        self.reference = self.lines[1]
+
+def compileall(directory = "..", infofile = None):
     data = []
     files = os.listdir(directory)
+    for fi in files:
+        if fi.endswith("info.txt"):
+            infofile = InfoFile(os.path.join(directory,fi))
+
     for fi in files:
         if fi in globalvariables.specialfiles:
             continue
         elif fi.endswith(".txt"):
-            data += MalbimIndexFile(os.path.join(directory, fi), 2).getdata()
+            data += MalbimIndexFile(os.path.join(directory, fi), infofile).getdata()
         elif os.path.isdir(os.path.join(directory, fi)):
-            data += compileall(os.path.join(directory, fi))
+            data += compileall(directory = os.path.join(directory, fi), infofile = infofile)
     return data
 
 def createdict(data):

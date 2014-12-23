@@ -3,7 +3,7 @@
 import compilesynonyms
 
 SYNONYMS = compilesynonyms.Synonyms("../synonyms.txt")
-specialfiles = ["synonyms.txt"]
+specialfiles = ["synonyms.txt", "info.txt", "implementation"]
 
 latexheader = r"""\documentclass[11pt]{article}
 \usepackage{geometry}

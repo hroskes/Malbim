@@ -2,26 +2,14 @@
 # -*- coding: UTF-8 -*-
 """Compile synonyms.txt"""
 
-from baseclasses import ReadFileError, MalbimDataFile
-
-class ReadSynonymsError(ReadFileError):
-    """Error for reading synonyms.txt"""
-    def __init__(self, line):
-        self._msg = ("Error reading synonyms.txt.\n"
-                     "Each line should have exactly one of '<' or '>',\n"
-                     "or any number of '=', and no '-'\n"
-                     "Problematic line:\n" + line)
-        super(ReadSynonymsError, self).__init__(self._msg)
-
-    def __str__(self):
-        return self._msg
+from baseclasses import MalbimDataFile
 
 class Synonyms(MalbimDataFile):
     """Contains lists of synonyms"""
     def __init__(self, synonymsfile):
         self.synonyms = []
         self.oneway = []
-        super(Synonyms, self).__init__(synonymsfile, 0)
+        super(Synonyms, self).__init__(synonymsfile)
         self.parse(self.lines)
         self.data = [self.synonyms, self.oneway]
 
@@ -33,14 +21,14 @@ class Synonyms(MalbimDataFile):
             elif "=" in line:
                 self.parsesynonym(line)
             else:
-                raise ReadSynonymsError(line)
+                self.raiseerror(line)
 
     def parsesynonym(self, line):
         """Synonyms are words that are essentially interchangeable
            with regard to what people are likely to search for"""
         addlist = line.split("=")
         if ">" in line or "<" in line or len(addlist) == 1 or "-" in line:
-            raise ReadSynonymsError(line)
+            self.raiseerror(line)
 
         self.synonyms += [addlist]
 
@@ -55,8 +43,14 @@ class Synonyms(MalbimDataFile):
             addlist.reverse()
 
         if addlist is None or len(addlist) != 2 or "=" in line or "-" in line:
-            raise ReadSynonymsError(line)
+            self.raiseerror(line)
         self.oneway += [addlist]
+
+    def raiseerror(self, line):
+        msg = ("Each line should have exactly one of '<' or '>',\n"
+               "or any number of '=', and no '-'\n"
+               "Problematic line:\n" + line)
+        super(Synonyms, self).raiseerror(msg)
 
 def test():
     """Test this on synonyms.txt"""

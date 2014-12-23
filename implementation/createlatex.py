@@ -1,6 +1,7 @@
 from helperfunctions import removenekudot
 from malbimdatafile import createdict, compileall
 from globalvariables import latexheader
+from baseclasses import ReadFileError
 import codecs
 
 def createlatex(datadict=None, outputfile="latexoutput.tex"):
@@ -60,5 +61,9 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
         f.write(latexstring)
 
 if __name__ == '__main__':
-    createlatex()
+    try:
+        createlatex()
+    except ReadFileError as e:
+        print unicode(e)
+        exit(1)
 

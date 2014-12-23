@@ -23,7 +23,7 @@ def removenekudot(listorstring):
     return removecharacters(listorstring, nekudot)
 
 def removebadcharacters(listorstring):
-    badcharacters = u"\ufeff"
+    badcharacters = u"\ufeff\n\r"
     return removecharacters(listorstring, badcharacters)
 
 def removeduplicates(inlist):
