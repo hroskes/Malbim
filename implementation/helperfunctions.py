@@ -35,3 +35,23 @@ def removeduplicates(inlist):
         if a in listcopy:
             return removeduplicates(listcopy)
     return inlist
+
+def tosort(reference):
+    import globalvariables
+
+    for i, location in zip(range(len(globalvariables.locationlist)), globalvariables.locationlist):
+        reference = reference.replace(location, str(i))
+
+    for i in [u"תורה אור", u"באור מלים"]:   #no need to distinguish because תורה אור is only in the Torah
+        if i in reference:                  #and באור מלים is only in some of Nach.
+            reference = reference.replace(i + " ", "") + "1"
+
+    if u"שאלות" in reference:
+        reference = reference.replace(u"שאלות ","")
+    else:
+        reference = reference + "0"
+
+    reference = reference.replace(u"טו", u"יה")
+    reference = reference.replace(u"טז", u"יו")
+
+    return reference
