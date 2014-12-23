@@ -16,6 +16,7 @@ latexheader = r"""\documentclass[11pt]{article}
 \usepackage[utf8x]{inputenc}
 \usepackage[hebrew,english]{babel}
 \usepackage{hebcal}
+\usepackage[hidelinks]{hyperref}
 
 \begin{document}
 \selectlanguage{english}
@@ -24,5 +25,6 @@ latexheader = r"""\documentclass[11pt]{article}
 \date{\selectlanguage{english}\today\hfill\selectlanguage{hebrew}\hebrewtoday}
 
 \maketitle
+\tableofcontents
 
 """
