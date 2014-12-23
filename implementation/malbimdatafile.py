@@ -4,7 +4,7 @@
 
 import globalvariables
 import os
-from helperfunctions import removenekudot
+from helperfunctions import removenekudot, removebadcharacters
 from baseclasses import ReadFileError, MalbimDataFile
 
 class MalbimIndexFile(MalbimDataFile):
@@ -71,7 +71,8 @@ def createdict(data):
             for synonym in compared:
                 if synonym not in datadict:
                     datadict[synonym] = []
-                datadict[synonym] += [unit]
+                datadict[synonym] += removebadcharacters([unit])
+                datadict[synonym].sort(key = lambda item: item[0])
     return datadict
 
 def test():
