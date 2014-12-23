@@ -18,9 +18,9 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
     keys.sort(key = lambda k: removenekudot(k))
 
     beginstring = "\\item[%s] \\hfill\n"
-    beginstring += "\\begin{mydescription}\n"
+    beginstring += "\\begin{description}\n"
 
-    endstring = "\\end{mydescription}\n\n"
+    endstring = "\\end{description}\n\n"
 
     for key in keys:
         used = [False, False, False]

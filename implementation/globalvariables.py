@@ -17,15 +17,6 @@ latexheader = r"""\documentclass[11pt]{article}
 \usepackage[hebrew,english]{babel}
 \usepackage{hebcal}
 
-%http://www.tex.ac.uk/cgi-bin/texfaq2html?label=nopagebrk
-\newenvironment{mydescription}{
-\filbreak
-\begin{description}
-}
-{
-\end{description}
-}
-
 \begin{document}
 \selectlanguage{english}
 \title{Malbim index}
