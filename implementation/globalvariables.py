@@ -9,6 +9,10 @@ latexheader = r"""\documentclass[11pt]{article}
 \usepackage{geometry}
 \geometry{verbose,tmargin=1.00in,bmargin=1.00in,lmargin=1.0in,rmargin=1.0in}
 
+\usepackage{multicol}
+\setlength{\columnseprule}{0.4pt}
+\RLmulticolcolumns
+
 \usepackage[utf8x]{inputenc}
 \usepackage[hebrew,english]{babel}
 \usepackage{hebcal}

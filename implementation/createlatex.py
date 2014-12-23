@@ -13,7 +13,7 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
 
     strings = ["\\section{Words}", "\\section{Grammar}", "\\section{Concepts}"]
     for i in range(len(strings)):
-        strings[i] = "\\selectlanguage{english}\n" + strings[i] + "\n\\selectlanguage{hebrew}\n\\begin{description}\n"
+        strings[i] = "\\selectlanguage{english}\n" + strings[i] + "\n\\selectlanguage{hebrew}\n\\begin{multicols}{3}\n\\begin{description}\n"
     keys = datadict.keys()
     keys.sort(key = lambda k: removenekudot(k))
 
@@ -49,7 +49,7 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
                 strings[i] += endstring
 
     for i in range(len(strings)):
-        strings[i] += endstring
+        strings[i] += "\\end{description}\n\\end{multicols}\n\n\n"
 
     latexstring += strings[0] + strings[1] + strings[2] + "\\end{document}\n"
 
