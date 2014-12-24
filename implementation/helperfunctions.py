@@ -42,9 +42,14 @@ def tosort(reference):
     for i, location in zip(range(len(globalvariables.locationlist)), globalvariables.locationlist):
         reference = reference.replace(location, str(i))
 
-    for i in [u"תורה אור", u"באור מלים"]:   #no need to distinguish because תורה אור is only in the Torah
-        if i in reference:                  #and באור מלים is only in some of Nach.
-            reference = reference.replace(i + " ", "") + "1"
+    addstring = None
+    for i, item in zip(range(len(globalvariables.endprioritysortlist)), globalvariables.endprioritysortlist):
+        if item is not None and item in reference:
+            reference = reference.replace(item + " ", "") + str(i)
+            addstring = ""
+        elif item is None and addstring is None:
+            addstring = str(i)
+    reference += addstring
 
     if u"שאלות" in reference:
         reference = reference.replace(u"שאלות ","")
