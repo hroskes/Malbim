@@ -21,10 +21,11 @@ final LaTeX document.
 
 ##Syntax
 
-Each text file will be stored in a directory with a descriptive name.  The directory has a file called info.txt, which 
+Each text file will be stored in a directory with a descriptive name.  The directory has a file called info.txt, which
 describes how to report where the file is.  Bereishit/info.txt, looks something like this:
 
 2
+
 בראשית \1 \2
 
 This means that the first 2 words on each line identify where the pasuk is located.  There might be other possibilities.
@@ -32,17 +33,24 @@ Something the Malbim says in his Hakdama to Shir Hashirim, for example, might go
 info.txt, which will override the main info.txt in the main Shir Hashirim directory:
 
 0
+
 שיר השירים הקדמה
 
 After the number of words indicated in info.txt, each word on the line (separated by spaces) is interpreted as a word or
 phrase that the Malbim defines in that perek and pasuk, or a comparison between words.  For example, Vayeishev/rishon.txt:
 
 לה א [מצרים=כור~הברזל] ישב [ארץ~כנען]
+
 לה ב תולדות רֹעֶה מביא~דבה-מוציא~דבה [מדות] [טבע-שכל]
+
 לה ג בן~זְקֻנִים [אהבה~עצמיית-אהבה~גשמיית] [סגולה] [ברכת~אברהם] [שנאה]
+
 לה ה הגדה-ספור
+
 לה ו הנה קם-נצב-עמד
+
 לה ח מלך-מושל
+
 לה ט הגדה-ספור
 
 ###Synonyms, tildes, and brackets
@@ -64,7 +72,7 @@ people are equally likely to search for either.
 Global synonyms are recorded in synonyms.txt in the main directory.  Any words listed there are essentially equivalent.  The
 only words that belong there are something someone might conceivably search for.  For example, הגיד, מגיד, and הגדה are both
 "base" forms of the verb, and someone might search for any of them.  It's unlikely that someone would search for something
-like וכשתגדנה, so that doesn't belong in synonyms.txt *or* as a local synonym where the Malbim talks about הגדה vs. ספור. 
+like וכשתגדנה, so that doesn't belong in synonyms.txt *or* as a local synonym where the Malbim talks about הגדה vs. ספור.
 While it is a global synonym in the sense that it's equivalent for the purposes of a search, it's not something that would
 practically be searched for.
 
@@ -73,6 +81,7 @@ for ספירה vs. מניה, but someone searching for ספור is not looking f
 greater than or less than symbols. For example,
 
 ספור<ספר
+
 ספירה<ספר
 
 One way synonyms have to be global, because there's no point in a local one way synonym.
@@ -94,7 +103,7 @@ one and put the others in synonyms.txt if they're global synonyms, or connect th
 ###Nekudot
 
 In pasuk ב, the word רֹעֶה has nekudot.  The search should ignore nekudot, but they should be put in place wherever they're
-needed for clarity.  This includes synonyms.txt
+needed for clarity.  This includes synonyms.txt.  Right now I can't get LaTeX to accept nekudot, but hopefully that will change.
 
 ###Comparisons
 
@@ -126,11 +135,13 @@ It doesn't matter
 whether they are on one line or two---for example, בראשית לה ו above is equivalent to
 
 לה ו הנה
+
 לה ו קם-נצב-עמד
 
 Normally there's no reason to use this long form, but it's available.  For example, in shevii of Vayeitzei, I split up
 
 לא נג פחד~יצחק
+
 לא נג אלהי~נחור
 
 The Malbim does not actually define פחד יצחק as a reference to Hashem.  But since Rashi does, it's better not to put it on the
