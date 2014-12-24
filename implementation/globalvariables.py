@@ -2,9 +2,9 @@
 # -*- coding: UTF-8 -*-
 """For global variables"""
 
-import compilesynonyms
+synonyms = None
+synonymsfile = "../synonyms.txt"
 
-SYNONYMS = compilesynonyms.Synonyms("../synonyms.txt")
 specialfiles = ["synonyms.txt", "info.txt", "implementation"]
 
 latexheader = r"""\documentclass[11pt]{article}
@@ -76,3 +76,5 @@ None,
 u"תורה אור",
 u"באור מלים"
 ]
+
+allowedcharacters = u"אְבֱגֲדֳהִוֵזֶחַטָיֹכּלֻמנסעפצקרשׁׂתךםןףץ~][)(-= '"

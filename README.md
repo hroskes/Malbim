@@ -15,18 +15,14 @@ needed.  An index for those would be even more useful.
 
 
 My approach to this task is to separate the content from the implementation.  I worked out a basic syntax for recording where
-the Malbim talks about different concepts in text files.  The plan is to then write scripts to assemble this into a useful
-format.  This may change, but I currently envision a script (maybe Python) that searches through the text files and assembles
-them all into a LaTeX document that can be printed for Shabbos use, and into a website that can then be searched.  It's
-probably possible to have a PHP script or something do this directly without the middle step, and probably the same can be
-done in LaTeX also.  I haven't started to look into the implementation.
+the Malbim talks about different concepts in text files.  Python scripts in the implementation folder compile the text files into a
+final LaTeX document.
 
 
 ##Syntax
 
-Each text file will be stored in a directory with a descriptive name.  The directory will have a file called info.txt, which
-describes how to report where the file is.  For example, when we get to Shemot, I will move all of the parshiyot of Bereishit
-into a folder called Bereishit, and create a file info.txt, which will look something like this:
+Each text file will be stored in a directory with a descriptive name.  The directory has a file called info.txt, which 
+describes how to report where the file is.  Bereishit/info.txt, looks something like this:
 
 2
 בראשית \1 \2
@@ -107,7 +103,7 @@ he told Yaakov about his brothers, because (aside from the fact that we know he 
 a מוציא~דבה, but the Torah says ויבא יוסף את דבתם.  I indicate this comparison with a hyphen.
 
 The only exception is in perek or pasuk numbers, or equivalent.  There, hyphen means what it normally does.  In LaTeX output
-for proper formatting it should be turned into an n dash.
+for proper formatting it's turned into double hyphen, which represents an n dash.
 
 ###Grammar
 
@@ -142,11 +138,11 @@ same line as a reference to avodah zarah.
 
 Tildes are higher priority than equals, which are higher priority than hyphens.  For example, in shevii of Vayeishev,
 
-משקה=אופה-משקה~מלך~מצרים=אופה~מלך~מצרים-שר~המשקים-שר~האופים
+משקה=אופה-משקה~מלך~מצרים=אופה~מלך~מצרים-שר~המשקים=שר~האופים
 
 Using parentheses to indicate the order (not a grammatical comment), this would be split like this:
 
-(משקה=אופה)-[(משקה~מלך~מצרים)=(אופה~מלך~מצרים)]-[(שר~המשקים)-(שר~האופים)]
+(משקה=אופה)-[(משקה~מלך~מצרים)=(אופה~מלך~מצרים)]-[(שר~המשקים)=(שר~האופים)]
 
 Overall, the order of operations is:
 * folder grouping (used for info.txt)

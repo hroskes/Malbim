@@ -3,6 +3,7 @@
 """Main classes for reading from files"""
 
 import globalvariables
+import compilesynonyms
 import os
 from helperfunctions import removenekudot, removebadcharacters, removeduplicates, tosort
 from baseclasses import MalbimDataFile
@@ -18,6 +19,8 @@ class MalbimIndexFile(MalbimDataFile):
 
     def parse(self, lines):
         """Assemble it all into a big list"""
+        if globalvariables.synonyms is None:
+            globalvariables.synonyms = compilesynonyms.Synonyms(globalvariables.synonymsfile)
         for line in lines:
             unitlist = []
             repmap = {}
@@ -38,10 +41,10 @@ class MalbimIndexFile(MalbimDataFile):
                 else:
                     comparedlist = [self.reference]
 
-                synonymdata = zip(globalvariables.SYNONYMS.getdata()[0],
-                                  removenekudot(globalvariables.SYNONYMS.getdata()[0]))
-                onewaydata = zip(globalvariables.SYNONYMS.getdata()[1],
-                                  removenekudot(globalvariables.SYNONYMS.getdata()[1]))
+                synonymdata = zip(globalvariables.synonyms.getdata()[0],
+                                  removenekudot(globalvariables.synonyms.getdata()[0]))
+                onewaydata = zip(globalvariables.synonyms.getdata()[1],
+                                  removenekudot(globalvariables.synonyms.getdata()[1]))
 
                 for compared in unit.split("-"):
                     synonymlist = compared.split("=")
@@ -83,6 +86,9 @@ class InfoFile(MalbimDataFile):
             self.lines[1] = self.lines[1].replace('\\' + str(i+1), "%(s" + str(i+1) + ")s")
 
         self.reference = self.lines[1]
+
+    def check(self, lines):
+        super(InfoFile, self).check(lines, globalvariables.allowedcharacters + "\\1234567890")
 
 def compileall(directory = "..", infofile = None):
     data = []

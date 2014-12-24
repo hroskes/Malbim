@@ -3,6 +3,7 @@
 """Compile synonyms.txt"""
 
 from baseclasses import MalbimDataFile
+import globalvariables
 
 class Synonyms(MalbimDataFile):
     """Contains lists of synonyms"""
@@ -51,6 +52,9 @@ class Synonyms(MalbimDataFile):
                "or any number of '=', and no '-'\n"
                "Problematic line:\n" + line)
         super(Synonyms, self).raiseerror(msg)
+
+    def check(self, lines):
+        super(Synonyms, self).check(lines, globalvariables.allowedcharacters + "<>")
 
 def test():
     """Test this on synonyms.txt"""
