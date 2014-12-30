@@ -29,13 +29,14 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
             itemstring = ""
             itemstring += "\\item[" + (reference[0].replace("(", "").replace(")", "")
                                                    .replace("[", "").replace("]", "")
+                                                   .replace("{", "").replace("}", "")
                                                    .replace("-", "--")) + "] \\hfill \\\\ \n"
             itemstring += "\\\\ \n".join(", ".join(b for b in a) for a in reference[1:])
             itemstring += "\n"
 
             if reference[0].startswith("("):
                 whichstring = 1
-            elif reference[0].startswith("["):
+            elif reference[0].startswith("[") or reference[0].startswith("{"):
                 whichstring = 2
             else:
                 whichstring = 0

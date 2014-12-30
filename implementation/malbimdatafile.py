@@ -38,6 +38,9 @@ class MalbimIndexFile(MalbimDataFile):
                 elif unit.startswith("[") and unit.endswith("]"):
                     comparedlist = ["[" + self.reference + "]"]
                     unit = unit[1:-1]
+                elif unit.startswith("{") and unit.endswith("}"):
+                    comparedlist = ["{" + self.reference + "}"]
+                    unit = unit[1:-1]
                 else:
                     comparedlist = [self.reference]
 
