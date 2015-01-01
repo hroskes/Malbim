@@ -19,8 +19,16 @@ def removenekudot(listorstring):
     """Remove all the nekudot from a string, or all the strings in a list.
        It can be nested to any level.
        The original string or list is not changed."""
-    nekudot = u"אְאֱאֲאֳאִֵאֶַאָשׂשׁאֹאּאֻ*".replace(u"א", "").replace(u"ש", "")   #* is not a nekuda but it's removed at the same time
+    nekudot = u"אְאֱאֲאֳאִֵאֶַאָשׂשׁאֹאּאֻ".replace(u"א", "").replace(u"ש", "")
     return removecharacters(listorstring, nekudot)
+
+def removeprefixes(listorstring):
+    prefixes = "*!"
+    return removecharacters(listorstring, prefixes)
+
+def lettersonly(listorstring):
+    nekudotandprefixes = "*!" + u"אְאֱאֲאֳאִֵאֶַאָשׂשׁאֹאּאֻ".replace(u"א", "").replace(u"ש", "")
+    return removecharacters(listorstring, nekudotandprefixes)
 
 def removebadcharacters(listorstring):
     badcharacters = u"\ufeff\n\r"
@@ -30,8 +38,10 @@ def removeduplicates(inlist):
     for a in inlist:
         listcopy = inlist[:]
         listcopy.reverse()
-        if a.replace("*","") in listcopy:
-            listcopy.remove(a.replace("*",""))
+        if removeprefixes(a) in listcopy:
+            listcopy.remove(removeprefixes(a))
+        elif a.replace("!","*") in listcopy:
+            listcopy.remove(a.replace("!","*"))
         else:
             listcopy.remove(a)
         listcopy.reverse()
@@ -42,7 +52,7 @@ def removeduplicates(inlist):
 def cleanup(inlist):
     outlist = removeduplicates(inlist)
     for a in outlist:
-        if a.startswith("*"):
+        if a.startswith("*") or a.startswith("!"):
             outlist.remove(a)
     return outlist
 

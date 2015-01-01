@@ -5,7 +5,7 @@
 import globalvariables
 import compilesynonyms
 import os
-from helperfunctions import removenekudot, removebadcharacters, removeduplicates, tosort
+from helperfunctions import removenekudot, removebadcharacters, removeduplicates, tosort, lettersonly
 from baseclasses import MalbimDataFile
 
 class MalbimIndexFile(MalbimDataFile):
@@ -60,19 +60,19 @@ class MalbimIndexFile(MalbimDataFile):
                         for synonym in synonymlist:
                             wordlist = synonym.split("~")
                             for globalsynonymlist, nonekudot in synonymdata:
-                                if removenekudot(synonym) in nonekudot:
+                                if lettersonly(synonym) in nonekudot:
                                     synonymlist += ["*" + word for word in globalsynonymlist \
                                                         if word not in synonymlist]
                                 if len(wordlist) > 1:
                                     for word in wordlist:
-                                        if removenekudot(word) in nonekudot:
+                                        if lettersonly(word) in nonekudot:
                                             synonymlist += ["*" + synonym.replace(word,globalsynonym) \
                                                             for globalsynonym in globalsynonymlist \
-                                                            if removenekudot(synonym.replace(word,globalsynonym)) \
-                                                               not in removenekudot(synonymlist)]
+                                                            if lettersonly(synonym.replace(word,globalsynonym)) \
+                                                               not in lettersonly(synonymlist)]
                             for onewaysynonymlist, nonekudot in onewaydata:
-                                if removenekudot(synonym) == nonekudot[1] \
-                                and nonekudot[0] not in removenekudot(synonymlist):
+                                if lettersonly(synonym) == nonekudot[1] \
+                                and nonekudot[0] not in lettersonly(synonymlist):
                                     synonymlist.append("*" + onewaysynonymlist[0])
                             synonymlist = removeduplicates(synonymlist)
                     comparedlist += [synonymlist]
@@ -121,6 +121,8 @@ def createdict(data):
     for unit in data:
         for compared in unit[1:]:
             for synonym in compared:
+                if synonym.startswith("!"):
+                    continue
                 synonym = synonym.replace("*","")
                 if synonym not in datadict:
                     datadict[synonym] = []
