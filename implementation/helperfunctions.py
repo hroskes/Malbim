@@ -49,11 +49,15 @@ def removeduplicates(inlist):
             return removeduplicates(listcopy)
     return inlist
 
-def cleanup(inlist):
-    outlist = removeduplicates(inlist)
-    for a in outlist:
-        if a.startswith("*") or a.startswith("!"):
-            outlist.remove(a)
+def cleanup(inlist, cleanupcharacters):
+    outlist = inlist[:]
+    for index, a in enumerate(outlist):
+        for character in cleanupcharacters:
+            try:
+                if a.startswith(character):
+                    outlist.remove(a)
+            except AttributeError:
+                outlist[index] = cleanup(a, cleanupcharacters)
     return outlist
 
 def tosort(reference):

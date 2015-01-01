@@ -5,7 +5,7 @@
 import globalvariables
 import compilesynonyms
 import os
-from helperfunctions import removenekudot, removebadcharacters, removeduplicates, tosort, lettersonly
+from helperfunctions import *
 from baseclasses import MalbimDataFile
 
 class MalbimIndexFile(MalbimDataFile):
@@ -126,7 +126,7 @@ def createdict(data):
                 synonym = synonym.replace("*","")
                 if synonym not in datadict:
                     datadict[synonym] = []
-                datadict[synonym] += removebadcharacters([unit])
+                datadict[synonym] += removebadcharacters(cleanup([unit],"!"))
                 datadict[synonym].sort(key = lambda item: tosort(item[0]))
     return datadict
 

@@ -40,7 +40,7 @@ class MalbimDataFile(object):
         for line in lines:
             for character in line:
                 if character not in allowedcharacters:
-                    self.raiseerror("Bad character + '" + character + "' in line:\n" + line
+                    self.raiseerror("Bad character '" + character + "' in line:\n" + line
                                      + "\nThe allowed characters are:\n" + allowedcharacters)
             for unit in line.split(" "):
                 if unit.startswith("(") and unit.endswith(")") \
