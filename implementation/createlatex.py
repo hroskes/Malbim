@@ -31,7 +31,7 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
                                                    .replace("[", "").replace("]", "")
                                                    .replace("{", "").replace("}", "")
                                                    .replace("-", "--")) + "] \\hfill \\\\ \n"
-            itemstring += "\\\\ \n".join(", ".join(b for b in a) for a in reference[1:])
+            itemstring += "\\\\ \n".join(", ".join(b for b in a if not b.startswith("*")) for a in reference[1:])
             itemstring += "\n"
 
             if reference[0].startswith("("):

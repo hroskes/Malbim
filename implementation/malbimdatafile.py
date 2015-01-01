@@ -32,6 +32,9 @@ class MalbimIndexFile(MalbimDataFile):
                 self.raiseerror("This line does not have enough words:\n" + line)
             for unit in line.split(" ")[self.ninitialwords:]:
 
+                if not unit:
+                    continue
+
                 if unit.startswith("(") and unit.endswith(")"):
                     comparedlist = ["(" + self.reference + ")"]
                     unit = unit[1:-1]
@@ -58,15 +61,19 @@ class MalbimIndexFile(MalbimDataFile):
                             wordlist = synonym.split("~")
                             for globalsynonymlist, nonekudot in synonymdata:
                                 if removenekudot(synonym) in nonekudot:
-                                    synonymlist += globalsynonymlist
+                                    synonymlist += ["*" + word for word in globalsynonymlist \
+                                                        if word not in synonymlist]
                                 if len(wordlist) > 1:
                                     for word in wordlist:
                                         if removenekudot(word) in nonekudot:
-                                            synonymlist += [synonym.replace(word,globalsynonym) \
-                                                                for globalsynonym in globalsynonymlist]
+                                            synonymlist += ["*" + synonym.replace(word,globalsynonym) \
+                                                            for globalsynonym in globalsynonymlist \
+                                                            if removenekudot(synonym.replace(word,globalsynonym)) \
+                                                               not in removenekudot(synonymlist)]
                             for onewaysynonymlist, nonekudot in onewaydata:
-                                if removenekudot(synonym) == nonekudot[1]:
-                                    synonymlist += onewaysynonymlist[:1]
+                                if removenekudot(synonym) == nonekudot[1] \
+                                and nonekudot[0] not in removenekudot(synonymlist):
+                                    synonymlist.append("*" + onewaysynonymlist[0])
                             synonymlist = removeduplicates(synonymlist)
                     comparedlist += [synonymlist]
                 unitlist += [comparedlist]
@@ -114,6 +121,7 @@ def createdict(data):
     for unit in data:
         for compared in unit[1:]:
             for synonym in compared:
+                synonym = synonym.replace("*","")
                 if synonym not in datadict:
                     datadict[synonym] = []
                 datadict[synonym] += removebadcharacters([unit])

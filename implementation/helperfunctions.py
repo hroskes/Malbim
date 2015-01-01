@@ -19,7 +19,7 @@ def removenekudot(listorstring):
     """Remove all the nekudot from a string, or all the strings in a list.
        It can be nested to any level.
        The original string or list is not changed."""
-    nekudot = u"אְאֱאֲאֳאִֵאֶַאָשׂשׁאֹאּאֻ".replace(u"א", "").replace(u"ש", "")
+    nekudot = u"אְאֱאֲאֳאִֵאֶַאָשׂשׁאֹאּאֻ*".replace(u"א", "").replace(u"ש", "")   #* is not a nekuda but it's removed at the same time
     return removecharacters(listorstring, nekudot)
 
 def removebadcharacters(listorstring):
@@ -30,11 +30,21 @@ def removeduplicates(inlist):
     for a in inlist:
         listcopy = inlist[:]
         listcopy.reverse()
-        listcopy.remove(a)
+        if a.replace("*","") in listcopy:
+            listcopy.remove(a.replace("*",""))
+        else:
+            listcopy.remove(a)
         listcopy.reverse()
         if a in listcopy:
             return removeduplicates(listcopy)
     return inlist
+
+def cleanup(inlist):
+    outlist = removeduplicates(inlist)
+    for a in outlist:
+        if a.startswith("*"):
+            outlist.remove(a)
+    return outlist
 
 def tosort(reference):
     import globalvariables
