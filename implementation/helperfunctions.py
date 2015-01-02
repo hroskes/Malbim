@@ -23,7 +23,7 @@ def removenekudot(listorstring):
     return removecharacters(listorstring, nekudot)
 
 def removeprefixes(listorstring):
-    prefixes = "*!"
+    prefixes = "*!%"
     return removecharacters(listorstring, prefixes)
 
 def lettersonly(listorstring):
@@ -42,6 +42,8 @@ def removeduplicates(inlist):
             listcopy.remove(removeprefixes(a))
         elif a.replace("!","*") in listcopy:
             listcopy.remove(a.replace("!","*"))
+        elif a.replace("!","%") in listcopy:
+            listcopy.remove(a.replace("!","%"))
         else:
             listcopy.remove(a)
         listcopy.reverse()

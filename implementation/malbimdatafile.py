@@ -121,12 +121,12 @@ def createdict(data):
     for unit in data:
         for compared in unit[1:]:
             for synonym in compared:
-                if synonym.startswith("!"):
+                if synonym.startswith("!") or synonym.startswith("%"):
                     continue
                 synonym = synonym.replace("*","")
                 if synonym not in datadict:
                     datadict[synonym] = []
-                datadict[synonym] += removebadcharacters(cleanup([unit],"!"))
+                datadict[synonym] += removebadcharacters(cleanup([unit],"!*"))
                 datadict[synonym].sort(key = lambda item: tosort(item[0]))
     return datadict
 
