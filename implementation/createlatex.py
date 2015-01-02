@@ -12,7 +12,7 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
     #    latexstring = f.read()
     latexstring = latexheader
 
-    strings = ["\\section{Words}", "\\section{Grammar}", "\\section{Concepts}"]
+    strings = ["\\section{Words}", "\\section{Grammar}", "\\section{Concepts}", "\\section{Halacha}"]
     for i in range(len(strings)):
         strings[i] = "\\selectlanguage{english}\n" + strings[i] + "\n\\selectlanguage{hebrew}\n\\begin{multicols}{3}\n\\begin{description}\n"
     keys = datadict.keys()
@@ -24,7 +24,7 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
     endstring = "\\end{description}\n\n"
 
     for key in keys:
-        used = [False, False, False]
+        used = [False, False, False, False]
         for reference in datadict[key]:
             itemstring = ""
             itemstring += "\\item[" + (reference[0].replace("(", "").replace(")", "")
@@ -36,8 +36,10 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
 
             if reference[0].startswith("("):
                 whichstring = 1
-            elif reference[0].startswith("[") or reference[0].startswith("{"):
+            elif reference[0].startswith("["):
                 whichstring = 2
+            elif reference[0].startswith("{"):
+                whichstring = 3
             else:
                 whichstring = 0
 
@@ -53,7 +55,7 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
     for i in range(len(strings)):
         strings[i] += "\\end{description}\n\\end{multicols}\n\n\n"
 
-    latexstring += strings[0] + strings[1] + strings[2] + "\\end{document}\n"
+    latexstring += strings[0] + strings[1] + strings[2] + strings[3] + "\\end{document}\n"
 
     latexstring = removenekudot(latexstring)   #Otherwise LaTeX won't compile
                                                #FIX THIS
