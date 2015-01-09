@@ -48,4 +48,4 @@ class MalbimDataFile(object):
                     unit = unit[1:-1]
                 for char in "()[]":
                     if char in unit:
-                        self.raiseerror("Brackets and parentheses can only be used around an entire unit")
+                        self.raiseerror("Brackets and parentheses can only be used around an entire unit.  Problematic unit:\n" + unit)
