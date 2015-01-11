@@ -27,7 +27,7 @@ class MalbimIndexFile(MalbimDataFile):
             for referenceword, i in zip(line.split(" ")[:self.ninitialwords], range(self.ninitialwords)):
                 repmap["s" + str(i+1)] = referenceword
             try:
-                self.reference = self.reference % repmap
+                reference = self.reference % repmap
             except KeyError:
                 self.raiseerror("This line does not have enough words:\n" + line)
             for unit in line.split(" ")[self.ninitialwords:]:
@@ -36,16 +36,16 @@ class MalbimIndexFile(MalbimDataFile):
                     continue
 
                 if unit.startswith("(") and unit.endswith(")"):
-                    comparedlist = ["(" + self.reference + ")"]
+                    comparedlist = ["(" + reference + ")"]
                     unit = unit[1:-1]
                 elif unit.startswith("[") and unit.endswith("]"):
-                    comparedlist = ["[" + self.reference + "]"]
+                    comparedlist = ["[" + reference + "]"]
                     unit = unit[1:-1]
                 elif unit.startswith("{") and unit.endswith("}"):
-                    comparedlist = ["{" + self.reference + "}"]
+                    comparedlist = ["{" + reference + "}"]
                     unit = unit[1:-1]
                 else:
-                    comparedlist = [self.reference]
+                    comparedlist = [reference]
 
                 synonymdata = zip(globalvariables.synonyms.getdata()[0],
                                   removenekudot(globalvariables.synonyms.getdata()[0]))
