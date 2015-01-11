@@ -47,6 +47,8 @@ class MalbimIndexFile(MalbimDataFile):
                 else:
                     comparedlist = [reference]
 
+                unit = unit.split("/")[0]         #temporarily ignore the slash until I implement it
+
                 synonymdata = zip(globalvariables.synonyms.getdata()[0],
                                   removenekudot(globalvariables.synonyms.getdata()[0]))
                 onewaydata = zip(globalvariables.synonyms.getdata()[1],
