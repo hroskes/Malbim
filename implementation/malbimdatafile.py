@@ -12,10 +12,14 @@ class MalbimIndexFile(MalbimDataFile):
     """Most files should be in this category.  The standard files described
        in README.txt"""
     def __init__(self, datafile, infofile):
-        super(MalbimIndexFile, self).__init__(datafile)
         self.ninitialwords = infofile.ninitialwords
         self.reference = infofile.reference
+        super(MalbimIndexFile, self).__init__(datafile)
         self.parse(self.lines)
+
+    def check(self, lines):
+        super(MalbimIndexFile, self).check([" ".join(line.split(" ")[self.ninitialwords:]) for line in lines])
+        super(MalbimIndexFile, self).check([" ".join(line.split(" ")[:self.ninitialwords]) for line in lines], globalvariables.allowedcharacters + ",")
 
     def parse(self, lines):
         """Assemble it all into a big list"""
