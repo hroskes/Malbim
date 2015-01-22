@@ -64,6 +64,8 @@ class MalbimIndexFile(MalbimDataFile):
                     while len(synonymlist) > oldlength:
                         oldlength = len(synonymlist)
                         for synonym in synonymlist:
+                            if synonym.startswith("%") or synonym.startswith("!"):
+                                continue
                             wordlist = synonym.split("~")
                             for globalsynonymlist, nonekudot in synonymdata:
                                 if lettersonly(synonym) in nonekudot:
@@ -104,7 +106,7 @@ class InfoFile(MalbimDataFile):
         self.reference = self.lines[1]
 
     def check(self, lines):
-        super(InfoFile, self).check(lines, globalvariables.allowedcharacters + "\\1234567890")
+        super(InfoFile, self).check(lines, globalvariables.allowedcharacters + "\\1234567890,")
 
 def compileall(directory = "..", infofile = None):
     data = []
@@ -114,6 +116,7 @@ def compileall(directory = "..", infofile = None):
             infofile = InfoFile(os.path.join(directory,fi))
 
     for fi in files:
+        print fi
         if fi in globalvariables.specialfiles:
             continue
         elif fi.endswith(".txt"):
