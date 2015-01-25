@@ -5,7 +5,7 @@
 synonyms = None
 synonymsfile = "../synonyms.txt"
 
-specialfiles = ["synonyms.txt", "info.txt", "implementation", ".git", ".gitignore"]
+specialfiles = ["synonyms.txt", "info.txt", "implementation", ".git", ".gitignore", "missing.txt"]
 
 latexheader = r"""\documentclass[11pt]{article}
 \usepackage{geometry}
