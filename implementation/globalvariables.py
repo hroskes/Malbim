@@ -27,9 +27,16 @@ latexheader = r"""\documentclass[11pt]{article}
 \date{\selectlanguage{english}\today\hfill\selectlanguage{hebrew}\hebrewtoday}
 
 \maketitle
+\selectlanguage{hebrew}
+\begin{center}
+\textbf{%s}
+\end{center}
+\selectlanguage{english}
 \tableofcontents
 
-"""
+""" % u"לזכות רפואה שלמה מן השמים רפואת הנפש ורפואת הגוף לרחל יונינה בת לאה רייזל בתוך שאר חולי ישראל"
+
+
 
 locationlist = [
 u"בראשית",

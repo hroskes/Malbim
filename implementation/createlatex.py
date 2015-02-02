@@ -8,8 +8,6 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
     if datadict is None:
         datadict = createdict(compileall())
 
-    #with codecs.open("latexheader.tex", encoding='utf-8') as f:
-    #    latexstring = f.read()
     latexstring = latexheader
 
     strings = ["\\section{Words}", "\\section{Grammar}", "\\section{Concepts}", "\\section{Halacha}"]
