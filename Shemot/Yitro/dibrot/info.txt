@@ -1,0 +1,8 @@
+#3
+#שמות \1 \2, מכילתא בחדש \3
+3
+שמות \1 \2
+
+#The Malbim here references the Mechilta a lot, but he doesn't discuss 
+#it line by line, and doesn't divide it up further like he does in other 
+#places
