@@ -40,12 +40,16 @@ def removeduplicates(inlist):
         listcopy.reverse()
         if removeprefixes(a) in listcopy:
             listcopy.remove(removeprefixes(a))
-        elif a.replace("!","*") in listcopy:
-            listcopy.remove(a.replace("!","*"))
-        elif a.replace("!","%") in listcopy:
-            listcopy.remove(a.replace("!","%"))
         else:
-            listcopy.remove(a)
+            try:
+                if a.replace("!","*") in listcopy:
+                    listcopy.remove(a.replace("!","*"))
+                elif a.replace("!","%") in listcopy:
+                    listcopy.remove(a.replace("!","%"))
+                else:
+                    listcopy.remove(a)
+            except AttributeError:
+                listcopy.remove(a)
         listcopy.reverse()
         if a in listcopy:
             return removeduplicates(listcopy)

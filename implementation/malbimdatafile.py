@@ -51,8 +51,6 @@ class MalbimIndexFile(MalbimDataFile):
                 else:
                     comparedlist = [reference]
 
-                unit = unit.split("/")[0]         #temporarily ignore the slash until I implement it
-
                 synonymdata = zip(globalvariables.synonyms.getdata()[0],
                                   removenekudot(globalvariables.synonyms.getdata()[0]))
                 onewaydata = zip(globalvariables.synonyms.getdata()[1],
@@ -60,6 +58,13 @@ class MalbimIndexFile(MalbimDataFile):
 
                 for compared in unit.split("-"):
                     synonymlist = compared.split("=")
+                    for i in range(len(synonymlist)):
+                        if "/" in synonymlist[i]:
+                            synonymlist[i] = "*" + synonymlist[i].split("/",1)[0] + "=%" + synonymlist[i].split("/",1)[1]
+                        if "/" in synonymlist[i]:
+                            self.raiseerror("A word can only have one slash\n" + line)
+                    synonymlist = "=".join(synonymlist).split("=")
+
                     oldlength = -1
                     while len(synonymlist) > oldlength:
                         oldlength = len(synonymlist)
@@ -84,6 +89,7 @@ class MalbimIndexFile(MalbimDataFile):
                                     synonymlist.append("*" + onewaysynonymlist[0])
                             synonymlist = removeduplicates(synonymlist)
                     comparedlist += [synonymlist]
+                comparedlist = removeduplicates(comparedlist)
                 unitlist += [comparedlist]
             self.data += unitlist
 
