@@ -39,17 +39,23 @@ class MalbimIndexFile(MalbimDataFile):
                 if not unit:
                     continue
 
+                thisreference = reference
+
+                if unit.startswith("@"):
+                    thisreference = r"\emph{" + thisreference + "}"
+                    unit = unit[1:]
+
                 if unit.startswith("(") and unit.endswith(")"):
-                    comparedlist = ["(" + reference + ")"]
+                    comparedlist = ["(" + thisreference + ")"]
                     unit = unit[1:-1]
                 elif unit.startswith("[") and unit.endswith("]"):
-                    comparedlist = ["[" + reference + "]"]
+                    comparedlist = ["[" + thisreference + "]"]
                     unit = unit[1:-1]
                 elif unit.startswith("{") and unit.endswith("}"):
-                    comparedlist = ["{" + reference + "}"]
+                    comparedlist = ["{" + thisreference + "}"]
                     unit = unit[1:-1]
                 else:
-                    comparedlist = [reference]
+                    comparedlist = [thisreference]
 
                 synonymdata = zip(globalvariables.synonyms.getdata()[0],
                                   removenekudot(globalvariables.synonyms.getdata()[0]))

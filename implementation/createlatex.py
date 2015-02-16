@@ -28,7 +28,11 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
             itemstring += "\\item[" + (reference[0].replace("(", "").replace(")", "")
                                                    .replace("[", "").replace("]", "")
                                                    .replace("{", "").replace("}", "")
-                                                   .replace("-", "--")) + "] \\hfill \\\\ \n"
+                                                   .replace("-", "--"))
+            if "emph" in itemstring:
+                itemstring = itemstring.replace("emph","emph{")
+                itemstring += "}"
+            itemstring += "] \\hfill \\\\ \n"
             itemstring += "\\\\ \n".join(", ".join(removeprefixes(b) for b in a if not b.startswith("*")) for a in reference[1:])
             itemstring += "\n"
 
