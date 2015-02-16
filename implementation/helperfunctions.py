@@ -35,21 +35,36 @@ def removebadcharacters(listorstring):
     return removecharacters(listorstring, badcharacters)
 
 def removeduplicates(inlist):
+    starlist = []
+    noprefixlist = []
+    nestedlist = False
     for a in inlist:
+        for n,b in enumerate(a):
+            if len(b) == 1:     #which generally means a is a string
+                continue
+            nestedlist = True
+            if b in starlist:
+                a.remove(b)
+            elif "*" + b in starlist:
+                raise IOError("Word " + b + " appears both with no prefix and with a *")
+            elif b in noprefixlist:
+                a[n] = "%" + b
+            elif b[0] == "*":
+                starlist.append(b)
+            elif b[0] not in "*%!":
+                noprefixlist.append(b)
+        if nestedlist:
+            continue
         listcopy = inlist[:]
         listcopy.reverse()
         if removeprefixes(a) in listcopy:
             listcopy.remove(removeprefixes(a))
+        elif a.replace("!","*") in listcopy:
+            listcopy.remove(a.replace("!","*"))
+        elif a.replace("!","%") in listcopy:
+            listcopy.remove(a.replace("!","%"))
         else:
-            try:
-                if a.replace("!","*") in listcopy:
-                    listcopy.remove(a.replace("!","*"))
-                elif a.replace("!","%") in listcopy:
-                    listcopy.remove(a.replace("!","%"))
-                else:
-                    listcopy.remove(a)
-            except AttributeError:
-                listcopy.remove(a)
+            listcopy.remove(a)
         listcopy.reverse()
         if a in listcopy:
             return removeduplicates(listcopy)
