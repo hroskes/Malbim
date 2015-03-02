@@ -129,7 +129,7 @@ def compileall(directory = "..", infofile = None):
 
     for fi in files:
         print fi
-        if fi in globalvariables.specialfiles:
+        if fi in globalvariables.specialfiles or os.path.islink(file):
             continue
         elif fi.endswith(".txt"):
             data += MalbimIndexFile(os.path.join(directory, fi), infofile).getdata()
