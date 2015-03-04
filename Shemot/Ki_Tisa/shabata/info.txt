@@ -1,0 +1,3 @@
+3
+שמות \1 \2, מכילתא כי תשא \3
+#Calling it Ki Tisa instead of Shabata, because there's Shabata in both Ki Tisa and Vayakhel
