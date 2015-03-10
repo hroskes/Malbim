@@ -43,9 +43,14 @@ class MalbimDataFile(object):
                     self.raiseerror("Bad character '" + character + "' in line:\n" + line
                                      + "\nThe allowed characters are:\n" + allowedcharacters)
             for unit in line.split(" "):
+                if unit.startswith("@"):
+                    unit = unit[1:]
+                if "@" in unit:
+                    self.raiseerror("@ must come at the beginning of a unit.  Problematic unit:\n" + unit)
                 if unit.startswith("(") and unit.endswith(")") \
-                     or unit.startswith("[") and unit.endswith("]"):
+                     or unit.startswith("[") and unit.endswith("]") \
+                     or unit.startswith("{") and unit.endswith("}"):
                     unit = unit[1:-1]
-                for char in "()[]":
+                for char in "()[]{}":
                     if char in unit:
                         self.raiseerror("Brackets and parentheses can only be used around an entire unit.  Problematic unit:\n" + unit)
