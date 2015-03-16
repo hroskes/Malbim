@@ -81,6 +81,7 @@ endprioritysortlist = [
 u"שאלות",
 None,
 u"תורה אור",
+u"נר מצוה",
 u"באור מלים"
 ]
 

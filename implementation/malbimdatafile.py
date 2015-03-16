@@ -106,7 +106,7 @@ class InfoFile(MalbimDataFile):
 
     def parse(self, lines):
         if len(lines) != 2:
-            self.raiseerror("info.txt files need to have exactly 2 nonempty lines")
+            self.raiseerror("info.txt files need to have exactly 2 nonempty, non-comment lines")
         try:
             self.ninitialwords = int(self.lines[0])
         except ValueError:
