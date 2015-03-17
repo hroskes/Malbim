@@ -78,6 +78,7 @@ u"דברי הימים"
 ]
 
 endprioritysortlist = [
+u"הערה"
 u"שאלות",
 None,
 u"תורה אור",
