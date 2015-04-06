@@ -34,7 +34,7 @@ latexheader = r"""\documentclass[11pt]{article}
 \selectlanguage{english}
 \tableofcontents
 
-""" % u"לזכות רפואה שלמה מן השמים רפואת הנפש ורפואת הגוף לרחל יונינה בת לאה רייזל בתוך שאר חולי ישראל"
+""" % u'לזכר נשמת רחל יונינה בת ישראל יעקב ע"ה'
 
 
 

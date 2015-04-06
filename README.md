@@ -1,6 +1,6 @@
 #Malbim dictionary
 
-**לזכות רפואה שלמה מן השמים רפואת הנפש ורפואת הגוף לרחל יונינה בת לאה רייזל בתוך שאר חולי ישראל**
+**לזכר נשמת רחל יונינה בת ישראל יעקב ע"ה**
 
 
 This is the beginning of a Malbim dictionary/index.  As it was originally conceived, I wanted references to each place the
