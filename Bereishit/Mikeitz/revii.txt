@@ -2,6 +2,6 @@
 מב ט [חלום]
 #See the Malbim in Shelach and Yehoshua.  מרגל seems to be able to go
 #either way, depending on what it's being compared with.
-מב ט-יד מרגל רואה~פרי~הארץ=תר-רואה~ערבת~הארץ
+מב ט-יד מרגל רואה~פרי~הארץ=תר-רואה~ערות~הארץ=*ערוה
 מב יג מארץ=ישב-בארץ=גר
 מב יז בחן
