@@ -104,4 +104,7 @@ def tosort(reference):
     reference = reference.replace(u"טו", u"יה")
     reference = reference.replace(u"טז", u"יו")
 
+    reference = reference.replace(r"\emph{","")
+    reference = reference.replace(r"}","")
+
     return reference
