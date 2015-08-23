@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 from helperfunctions import *
 from malbimdatafile import createdict, compileall
 from globalvariables import latexheader
@@ -24,15 +26,16 @@ def createlatex(datadict=None, outputfile="latexoutput.tex"):
     for key in keys:
         used = [False, False, False, False]
         for reference in datadict[key]:
-            itemstring = ""
-            itemstring += "\\item[" + (reference[0].replace("(", "").replace(")", "")
-                                                   .replace("[", "").replace("]", "")
-                                                   .replace("{", "").replace("}", "")
-                                                   .replace("-", "--"))
-            if "emph" in itemstring:
-                itemstring = itemstring.replace("emph","emph{")
-                itemstring += "}"
-            itemstring += "] \\hfill \\\\ \n"
+            itemstring = (reference[0].replace("(", "").replace(")", "")
+                                      .replace("[", "").replace("]", "")
+                                      .replace("{", "").replace("}", "")
+                                      .replace("-", "--"))
+            if "?" in itemstring:
+                itemstring = itemstring.replace("?", "") + u' {\\tiny )צ"ע(}'
+            if "@" in itemstring:
+                itemstring = r"\emph{" + itemstring.replace("@", "") + "}"
+
+            itemstring = "\\item[" + itemstring + "] \\hfill \\\\ \n"
             itemstring += "\\\\ \n".join(", ".join(removeprefixes(b) for b in a if not b.startswith("*")) for a in reference[1:])
             itemstring += "\n"
 

@@ -41,8 +41,13 @@ class MalbimIndexFile(MalbimDataFile):
 
                 thisreference = reference
 
+                unit = unit.replace("?@", "@?")
+
                 if unit.startswith("@"):
-                    thisreference = r"\emph{" + thisreference + "}"
+                    thisreference = "@" + thisreference
+                    unit = unit[1:]
+                if unit.startswith("?"):
+                    thisreference = "?" + thisreference
                     unit = unit[1:]
 
                 if unit.startswith("(") and unit.endswith(")"):

@@ -27,7 +27,7 @@ def removeprefixes(listorstring):
     return removecharacters(listorstring, prefixes)
 
 def lettersonly(listorstring):
-    nekudotandprefixes = "*!" + u"אְאֱאֲאֳאִֵאֶַאָשׂשׁאֹאּאֻ".replace(u"א", "").replace(u"ש", "")
+    nekudotandprefixes = "*!%" + u"אְאֱאֲאֳאִֵאֶַאָשׂשׁאֹאּאֻ".replace(u"א", "").replace(u"ש", "")
     return removecharacters(listorstring, nekudotandprefixes)
 
 def removebadcharacters(listorstring):

@@ -43,10 +43,10 @@ class MalbimDataFile(object):
                     self.raiseerror("Bad character '" + character + "' in line:\n" + line
                                      + "\nThe allowed characters are:\n" + allowedcharacters)
             for unit in line.split(" "):
-                if unit.startswith("@"):
+                while unit.startswith("@") or unit.startswith("?"):
                     unit = unit[1:]
-                if "@" in unit:
-                    self.raiseerror("@ must come at the beginning of a unit.  Problematic unit:\n" + unit)
+                if "@" in unit or "?" in unit:
+                    self.raiseerror("@ or ? must come at the beginning of a unit.  Problematic unit:\n" + unit)
                 if unit.startswith("(") and unit.endswith(")") \
                      or unit.startswith("[") and unit.endswith("]") \
                      or unit.startswith("{") and unit.endswith("}"):
